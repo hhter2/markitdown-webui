@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="在本機將文件轉換為 Markdown，並即時預覽、編輯及下載。">
+  <title>{{ app_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+  <script src="{{ url_for('static', path='/app.js') }}" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">M↓</div>
+      <div>
+        <h1>{{ app_name }}</h1>
+        <p>本機文件轉 Markdown 工作台</p>
+      </div>
+    </div>
+    <div class="local-badge" title="服務只監聽本機位址">
+      <span class="status-dot" aria-hidden="true"></span>
+      僅限本機
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="upload-card" id="uploadCard">
+      <input id="fileInput" type="file" hidden>
+      <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="選擇或拖放檔案">
+        <div class="upload-icon" aria-hidden="true">↑</div>
+        <div class="drop-copy">
+          <strong>拖放文件到這裡</strong>
+          <span>或點擊選擇檔案，單檔上限 {{ max_upload_mb }} MB</span>
+        </div>
+        <button class="primary-button" id="chooseButton" type="button">選擇檔案</button>
+      </div>
+      <p class="format-hint">PDF、Word、PowerPoint、Excel、HTML、CSV、JSON、XML、EPUB、圖片、音訊與 ZIP 等常見格式</p>
+    </section>
+
+    <section class="workspace" id="workspace" aria-live="polite">
+      <div class="workspace-toolbar">
+        <div class="file-summary">
+          <span class="file-type" id="fileType">MD</span>
+          <div>
+            <strong id="fileName">尚未選擇檔案</strong>
+            <span id="fileMeta">轉換後可在下方直接編輯</span>
+          </div>
+        </div>
+        <div class="toolbar-actions">
+          <button class="ghost-button" id="copyButton" type="button" disabled>複製</button>
+          <button class="ghost-button" id="resetButton" type="button" disabled>清除</button>
+          <button class="primary-button" id="downloadButton" type="button" disabled>下載 .md</button>
+        </div>
+      </div>
+
+      <div class="status-banner" id="statusBanner" hidden>
+        <span class="spinner" id="spinner" aria-hidden="true"></span>
+        <span id="statusText"></span>
+      </div>
+
+      <div class="editor-grid">
+        <section class="pane source-pane">
+          <div class="pane-header">
+            <div>
+              <span class="eyebrow">SOURCE</span>
+              <h2>Markdown 程式碼</h2>
+            </div>
+            <span class="counter" id="charCounter">0 字元</span>
+          </div>
+          <textarea id="markdownEditor" spellcheck="false" aria-label="Markdown 程式碼編輯器" disabled placeholder="上傳文件後，轉換結果會顯示在這裡。"></textarea>
+        </section>
+
+        <section class="pane preview-pane">
+          <div class="pane-header">
+            <div>
+              <span class="eyebrow">PREVIEW</span>
+              <h2>即時預覽</h2>
+            </div>
+            <span class="preview-state" id="previewState">等待內容</span>
+          </div>
+          <article class="markdown-preview empty" id="markdownPreview">
+            <div class="empty-state">
+              <div class="empty-glyph" aria-hidden="true">#</div>
+              <p>轉換後的排版效果會顯示在此處。</p>
+            </div>
+          </article>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>由 Microsoft MarkItDown 驅動</span>
+    <span>檔案不會上傳至外部服務</span>
+  </footer>
+</body>
+</html>
