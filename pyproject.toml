@@ -1,0 +1,18 @@
+[project]
+name = "markitdown-web-local"
+version = "1.0.0"
+description = "Lightweight local web UI for Microsoft MarkItDown"
+requires-python = ">=3.10,<3.14"
+license = { text = "MIT" }
+readme = "README.md"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
