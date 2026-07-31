@@ -48,6 +48,18 @@ button:disabled { cursor: not-allowed; opacity: 0.48; }
 }
 
 .brand { display: flex; align-items: center; gap: 12px; }
+.topbar-actions { display: flex; align-items: center; gap: 10px; }
+.language-switch {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 650;
+}
+.language-switch:hover { background: var(--surface-muted); border-color: var(--border-strong); }
 .brand-mark {
   width: 40px;
   height: 40px;

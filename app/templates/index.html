@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en-US">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="在本機將文件轉換為 Markdown，並即時預覽、編輯及下載。">
+  <meta name="description" content="Convert documents to Markdown locally with live preview, editing, and download.">
   <title>{{ app_name }}</title>
   <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
   <script src="{{ url_for('static', path='/app.js') }}" defer></script>
@@ -15,27 +15,30 @@
       <div class="brand-mark" aria-hidden="true">M↓</div>
       <div>
         <h1>{{ app_name }}</h1>
-        <p>本機文件轉 Markdown 工作台</p>
+        <p data-i18n="brandTagline">Local document-to-Markdown workspace</p>
       </div>
     </div>
-    <div class="local-badge" title="服務只監聽本機位址">
+    <div class="topbar-actions">
+      <button class="language-switch" id="languageSwitch" type="button" aria-label="Switch language">繁中</button>
+      <div class="local-badge" title="The service listens only on the local address">
       <span class="status-dot" aria-hidden="true"></span>
-      僅限本機
+      <span data-i18n="localOnly">Local only</span>
+      </div>
     </div>
   </header>
 
   <main class="page-shell">
     <section class="upload-card" id="uploadCard">
       <input id="fileInput" type="file" hidden>
-      <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="選擇或拖放檔案">
+      <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Choose or drop a file">
         <div class="upload-icon" aria-hidden="true">↑</div>
         <div class="drop-copy">
-          <strong>拖放文件到這裡</strong>
-          <span>或點擊選擇檔案，單檔上限 {{ max_upload_mb }} MB</span>
+          <strong data-i18n="dropTitle">Drop a document here</strong>
+          <span data-i18n="dropHint" data-i18n-max="{{ max_upload_mb }}">Or click to choose a file, up to {{ max_upload_mb }} MB</span>
         </div>
-        <button class="primary-button" id="chooseButton" type="button">選擇檔案</button>
+        <button class="primary-button" id="chooseButton" type="button" data-i18n="chooseFile">Choose file</button>
       </div>
-      <p class="format-hint">PDF、Word、PowerPoint、Excel、HTML、CSV、JSON、XML、EPUB、圖片、音訊與 ZIP 等常見格式</p>
+      <p class="format-hint" data-i18n="formatHint">Common formats include PDF, Word, PowerPoint, Excel, HTML, CSV, JSON, XML, EPUB, images, audio, and ZIP.</p>
     </section>
 
     <section class="workspace" id="workspace" aria-live="polite">
@@ -48,9 +51,9 @@
           </div>
         </div>
         <div class="toolbar-actions">
-          <button class="ghost-button" id="copyButton" type="button" disabled>複製</button>
-          <button class="ghost-button" id="resetButton" type="button" disabled>清除</button>
-          <button class="primary-button" id="downloadButton" type="button" disabled>下載 .md</button>
+          <button class="ghost-button" id="copyButton" type="button" disabled data-i18n="copy">Copy</button>
+          <button class="ghost-button" id="resetButton" type="button" disabled data-i18n="clear">Clear</button>
+          <button class="primary-button" id="downloadButton" type="button" disabled data-i18n="download">Download .md</button>
         </div>
       </div>
 
@@ -64,7 +67,7 @@
           <div class="pane-header">
             <div>
               <span class="eyebrow">SOURCE</span>
-              <h2>Markdown 程式碼</h2>
+            <h2 data-i18n="markdownSource">Markdown source</h2>
             </div>
             <span class="counter" id="charCounter">0 字元</span>
           </div>
@@ -75,14 +78,14 @@
           <div class="pane-header">
             <div>
               <span class="eyebrow">PREVIEW</span>
-              <h2>即時預覽</h2>
+            <h2 data-i18n="livePreview">Live preview</h2>
             </div>
             <span class="preview-state" id="previewState">等待內容</span>
           </div>
           <article class="markdown-preview empty" id="markdownPreview">
             <div class="empty-state">
               <div class="empty-glyph" aria-hidden="true">#</div>
-              <p>轉換後的排版效果會顯示在此處。</p>
+              <p data-i18n="emptyPreview">The rendered result will appear here after conversion.</p>
             </div>
           </article>
         </section>
@@ -91,8 +94,8 @@
   </main>
 
   <footer>
-    <span>由 Microsoft MarkItDown 驅動</span>
-    <span>檔案不會上傳至外部服務</span>
+    <span data-i18n="poweredBy">Powered by Microsoft MarkItDown</span>
+    <span data-i18n="noUpload">Files are not uploaded to external services</span>
   </footer>
 </body>
 </html>
