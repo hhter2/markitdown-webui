@@ -1,6 +1,19 @@
 # MarkItDown Web
 
-<p><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a></p>
+<p align="center">
+  <a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a>
+</p>
+
+<p align="center">
+  <a href="#usage">Usage</a> · <a href="#architecture">Architecture</a> · <a href="#development">Development</a> · <a href="#security-boundary">Security</a>
+</p>
+
+<p align="center">
+  <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-orange">
+  <img alt="Python 3.10-3.13" src="https://img.shields.io/badge/python-3.10--3.13-blue?logo=python&logoColor=white">
+  <img alt="Conda md_webui" src="https://img.shields.io/badge/conda-md__webui-44A833?logo=anaconda&logoColor=white">
+  <a href="LICENSE"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green"></a>
+</p>
 
 A lightweight local web interface powered by Microsoft MarkItDown. Upload a document to view its Markdown source and rendered preview side by side; edit, copy, and download the result. The interface defaults to en-US and can be switched to zh-TW with the language button.
 
@@ -29,13 +42,13 @@ From the repository root:
 
 ```bash
 conda env create -f environment.yml
-conda activate markitdown-webui
+conda activate md_webui
 python run.py
 ```
 
 Then open `http://127.0.0.1:8765` if the browser is not opened manually.
 
-`environment.yml` lets Conda manage a compatible Python version while the project's Python packages are installed from `requirements.txt` inside the environment. To refresh an existing environment after dependency changes, run:
+`environment.yml` creates the default Conda environment as **`md_webui`**, lets Conda manage a compatible Python version, and installs the project's Python packages from `requirements.txt` inside that environment. To refresh an existing environment after dependency changes, run:
 
 ```bash
 conda env update -f environment.yml --prune
