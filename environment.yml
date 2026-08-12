@@ -1,4 +1,4 @@
-name: markitdown-webui
+name: md_webui
 channels:
   - conda-forge
 dependencies:
