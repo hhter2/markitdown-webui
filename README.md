@@ -97,13 +97,13 @@ Using Conda:
 
 ```bash
 conda env create -f environment-dev.yml
-conda activate markitdown-webui-dev
+conda activate md_webui-dev
 pytest
 ruff check .
 python run.py
 ```
 
-`environment-dev.yml` installs `requirements-dev.txt`, which includes the runtime dependencies plus the test and lint tools.
+`environment-dev.yml` creates the development Conda environment as **`md_webui-dev`** and installs `requirements-dev.txt`, which includes the runtime dependencies plus the test and lint tools.
 
 ## Security boundary
 
