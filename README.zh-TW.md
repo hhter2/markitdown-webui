@@ -1,6 +1,19 @@
 # MarkItDown Web
 
-<p><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a></p>
+<p align="center">
+  <a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a>
+</p>
+
+<p align="center">
+  <a href="#使用方式">使用方式</a> · <a href="#架構">架構</a> · <a href="#開發">開發</a> · <a href="#安全邊界">安全</a>
+</p>
+
+<p align="center">
+  <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-orange">
+  <img alt="Python 3.10-3.13" src="https://img.shields.io/badge/python-3.10--3.13-blue?logo=python&logoColor=white">
+  <img alt="Conda md_webui" src="https://img.shields.io/badge/conda-md__webui-44A833?logo=anaconda&logoColor=white">
+  <a href="LICENSE"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green"></a>
+</p>
 
 一個以 Microsoft MarkItDown 為核心的輕量本機 Web 介面。使用者可以上傳文件，並排查看 Markdown 原始碼與渲染效果；原始碼可直接編輯、複製及下載。介面預設為 en-US，也可以使用語言按鈕切換至 zh-TW。
 
@@ -29,13 +42,13 @@
 
 ```bash
 conda env create -f environment.yml
-conda activate markitdown-webui
+conda activate md_webui
 python run.py
 ```
 
 若瀏覽器沒有自動開啟，請前往 `http://127.0.0.1:8765`。
 
-`environment.yml` 會讓 Conda 管理相容的 Python 版本，並在該環境內透過 `requirements.txt` 安裝專案所需的 Python 套件。依賴更新後，可用以下指令更新既有環境：
+`environment.yml` 預設會建立名為 **`md_webui`** 的 Conda 環境，讓 Conda 管理相容的 Python 版本，並在該環境內透過 `requirements.txt` 安裝專案所需的 Python 套件。依賴更新後，可用以下指令更新既有環境：
 
 ```bash
 conda env update -f environment.yml --prune
