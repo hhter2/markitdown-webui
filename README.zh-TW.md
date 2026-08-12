@@ -97,13 +97,13 @@ python run.py
 
 ```bash
 conda env create -f environment-dev.yml
-conda activate markitdown-webui-dev
+conda activate md_webui-dev
 pytest
 ruff check .
 python run.py
 ```
 
-`environment-dev.yml` 會安裝 `requirements-dev.txt`，其中包含執行階段依賴、測試與 lint 工具。
+`environment-dev.yml` 預設會建立名為 **`md_webui-dev`** 的開發 Conda 環境，並安裝 `requirements-dev.txt`；其中包含執行階段依賴、測試與 lint 工具。
 
 開發指令只提供給維護者；一般使用者不需執行。
 
