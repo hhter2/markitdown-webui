@@ -19,22 +19,34 @@
 
 ## 使用方式
 
-本專案支援兩種執行方式：
+使用 Python 3.10–3.13 啟動本機服務，再透過瀏覽器開啟。Windows PowerShell、macOS 與 Linux 都使用相同的流程。
 
-- **桌面啟動器：**需要 **Python 3.10–3.13** 與首次啟動時的網路連線。啟動器會自行建立 `.runtime/venv` 並安裝固定版本的執行依賴。
-- **Conda / Miniconda：**使用專案提供的 Conda 環境檔建立環境，並直接從該環境執行服務。
+### Python 虛擬環境
 
-### Windows
+在 repository 根目錄建立虛擬環境：
 
-雙擊 `Start MarkItDown Web.vbs`。背景安裝完成後，瀏覽器會自動開啟。
+```bash
+python -m venv .venv
+```
 
-### macOS
+Windows PowerShell 啟用方式：
 
-雙擊 `MarkItDown Web.app`。若 macOS 阻擋未簽署 App，第一次可按住 Control 點擊並選擇「打開」。也可執行 `launch_macos.command`。
+```powershell
+.venv\Scripts\Activate.ps1
+```
 
-### Linux
+macOS 與 Linux 啟用方式：
 
-執行 `launch_linux.sh`。桌面環境可將此檔案設為可執行後雙擊。
+```bash
+source .venv/bin/activate
+```
+
+接著安裝依賴並啟動服務：
+
+```bash
+pip install -r requirements.txt
+python run.py
+```
 
 ### Conda / Miniconda
 
@@ -46,7 +58,7 @@ conda activate md_webui
 python run.py
 ```
 
-若瀏覽器沒有自動開啟，請前往 `http://127.0.0.1:8765`。
+然後在瀏覽器開啟 `http://localhost:8765`。
 
 `environment.yml` 預設會建立名為 **`md_webui`** 的 Conda 環境，讓 Conda 管理相容的 Python 版本，並在該環境內透過 `requirements.txt` 安裝專案所需的 Python 套件。依賴更新後，可用以下指令更新既有環境：
 
@@ -54,9 +66,7 @@ python run.py
 conda env update -f environment.yml --prune
 ```
 
-若你希望程式**確實執行在目前啟用的 Conda 環境中**，請使用 `python run.py`。各平台桌面啟動器是刻意設計成使用獨立的 `.runtime/venv`，不會沿用目前啟用的 Conda 環境。
-
-服務只監聽 `127.0.0.1:8765`，不對區域網路或網際網路開放。若已有實例執行，桌面啟動器只會開啟既有頁面。
+服務只監聽本機 loopback 介面，不對區域網路或網際網路開放。要停止服務，請在執行中的終端按 `Ctrl+C`。
 
 ## 功能
 
@@ -79,7 +89,7 @@ conda env update -f environment.yml --prune
   └─ Blob 下載          ──> 使用者編輯後的 Markdown
 ```
 
-主要檔案：`app/main.py`（HTTP 端點、大小限制與安全標頭）、`app/converter.py`（MarkItDown 串流轉換封裝）、`app/preview.py`（Markdown 渲染與 HTML 清理）、`app/static/`（無框架前端）與 `launcher.py`（跨平台私有執行環境管理）。
+主要檔案：`app/main.py`（HTTP 端點、大小限制與安全標頭）、`app/converter.py`（MarkItDown 串流轉換封裝）、`app/preview.py`（Markdown 渲染與 HTML 清理）、`app/static/`（無框架前端）與 `run.py`（本機服務入口）。
 
 ## 開發
 
@@ -113,4 +123,4 @@ python run.py
 
 ## 上游與授權
 
-本專案不包含 Microsoft MarkItDown 的原始碼；桌面啟動器首次啟動時，或建立指定的 Python/Conda 環境時，會安裝官方 PyPI 套件 `markitdown==0.1.7`。本介面採 MIT License；第三方套件各自依原授權使用。詳見 `THIRD_PARTY_NOTICES.md`。
+本專案不包含 Microsoft MarkItDown 的原始碼；`requirements.txt` 與專案提供的 Conda 環境會安裝官方 PyPI 套件 `markitdown==0.1.7`。本介面採 MIT License；第三方套件各自依原授權使用。詳見 `THIRD_PARTY_NOTICES.md`。

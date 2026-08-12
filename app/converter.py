@@ -8,8 +8,8 @@ def convert_bytes(data: bytes, extension: str) -> str:
     """Convert an in-memory upload using MarkItDown's stream API."""
     try:
         from markitdown import MarkItDown, StreamInfo
-    except ImportError as exc:  # pragma: no cover - launcher installs dependencies
-        raise RuntimeError("MarkItDown 尚未安裝，請重新執行啟動器。") from exc
+    except ImportError as exc:  # pragma: no cover - dependency installation issue
+        raise RuntimeError("MarkItDown 尚未安裝，請執行 pip install -r requirements.txt。") from exc
 
     converter = MarkItDown(enable_plugins=False)
     stream_info = StreamInfo(extension=extension)

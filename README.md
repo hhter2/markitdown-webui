@@ -19,22 +19,34 @@ A lightweight local web interface powered by Microsoft MarkItDown. Upload a docu
 
 ## Usage
 
-There are two supported ways to run the project:
+Use Python 3.10–3.13 to run the local service, then open it in a browser. The same commands work in Windows PowerShell, macOS, and Linux.
 
-- **Desktop launcher:** requires **Python 3.10–3.13** and an internet connection on first launch. The launcher creates `.runtime/venv` and installs the pinned runtime dependencies automatically.
-- **Conda / Miniconda:** create the supplied Conda environment and run the service directly from that environment.
+### Python virtual environment
 
-### Windows
+From the repository root, create a virtual environment and install the dependencies:
 
-Double-click `Start MarkItDown Web.vbs`. The browser opens automatically after setup completes.
+```bash
+python -m venv .venv
+```
 
-### macOS
+Activate it on Windows PowerShell:
 
-Double-click `MarkItDown Web.app`. If macOS blocks the unsigned app, Control-click it and choose “Open” the first time. You can also run `launch_macos.command`.
+```powershell
+.venv\Scripts\Activate.ps1
+```
 
-### Linux
+Or activate it on macOS and Linux:
 
-Run `launch_linux.sh`. On a desktop environment, make it executable and double-click it.
+```bash
+source .venv/bin/activate
+```
+
+Then start the service:
+
+```bash
+pip install -r requirements.txt
+python run.py
+```
 
 ### Conda / Miniconda
 
@@ -46,7 +58,7 @@ conda activate md_webui
 python run.py
 ```
 
-Then open `http://127.0.0.1:8765` if the browser is not opened manually.
+Then open `http://localhost:8765` in your browser.
 
 `environment.yml` creates the default Conda environment as **`md_webui`**, lets Conda manage a compatible Python version, and installs the project's Python packages from `requirements.txt` inside that environment. To refresh an existing environment after dependency changes, run:
 
@@ -54,9 +66,7 @@ Then open `http://127.0.0.1:8765` if the browser is not opened manually.
 conda env update -f environment.yml --prune
 ```
 
-If you want to run **inside the active Conda environment**, use `python run.py`. The platform launchers intentionally use the private `.runtime/venv` runtime instead of the currently activated Conda environment.
-
-The service listens only on `127.0.0.1:8765` and is not exposed to the LAN or internet. If an instance is already running, the desktop launcher opens the existing page.
+The service listens only on the local loopback interface and is not exposed to the LAN or internet. Stop it with `Ctrl+C` in the terminal where it is running.
 
 ## Features
 
@@ -79,7 +89,7 @@ Browser
   └─ Blob download      ──> Markdown edited by the user
 ```
 
-Key files: `app/main.py` (HTTP endpoints, limits, and security headers), `app/converter.py` (stream conversion), `app/preview.py` (Markdown rendering and sanitization), `app/static/` (framework-free frontend), and `launcher.py` (cross-platform private runtime management).
+Key files: `app/main.py` (HTTP endpoints, limits, and security headers), `app/converter.py` (stream conversion), `app/preview.py` (Markdown rendering and sanitization), `app/static/` (framework-free frontend), and `run.py` (local server entry point).
 
 ## Development
 
@@ -111,4 +121,4 @@ This is a local desktop tool, not a multi-tenant public upload service. Although
 
 ## Upstream and license
 
-This project does not include Microsoft MarkItDown source code; it installs the official PyPI package `markitdown==0.1.7` on first launch or when the selected environment is created. This interface is MIT licensed; third-party packages retain their respective licenses. See `THIRD_PARTY_NOTICES.md`.
+This project does not include Microsoft MarkItDown source code; `requirements.txt` and the supplied Conda environments install the official PyPI package `markitdown==0.1.7`. This interface is MIT licensed; third-party packages retain their respective licenses. See `THIRD_PARTY_NOTICES.md`.

@@ -113,7 +113,7 @@ def _humanize_conversion_error(exc: Exception) -> str:
     message = str(exc).strip()
     lowered = message.lower()
     if "missingdependency" in lowered or "install" in lowered and "markitdown" in lowered:
-        return "此格式需要額外轉換元件。請重新執行啟動器以修復依賴套件。"
+        return "此格式需要額外轉換元件。請執行 pip install -r requirements.txt 以修復依賴套件。"
     if "not a valid office open xml" in lowered:
         return "檔案不是有效的 Office Open XML 文件，或檔案已損壞。"
     if not message:
