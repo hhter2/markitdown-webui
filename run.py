@@ -6,6 +6,7 @@ from app.config import SETTINGS
 
 
 if __name__ == "__main__":
+    print(f"Server started at http://localhost:{SETTINGS.port}", flush=True)
     uvicorn.run(
         "app.main:app",
         host=SETTINGS.host,
