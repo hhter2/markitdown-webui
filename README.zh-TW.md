@@ -6,7 +6,10 @@
 
 ## 使用方式
 
-前置需求只有 **Python 3.10–3.13** 與首次啟動時的網路連線。啟動器會自行建立 `.runtime/venv`、安裝固定版本的 MarkItDown，使用者不需要執行 `pip`、建立 venv 或開啟命令提示字元。
+本專案支援兩種執行方式：
+
+- **桌面啟動器：**需要 **Python 3.10–3.13** 與首次啟動時的網路連線。啟動器會自行建立 `.runtime/venv` 並安裝固定版本的執行依賴。
+- **Conda / Miniconda：**使用專案提供的 Conda 環境檔建立環境，並直接從該環境執行服務。
 
 ### Windows
 
@@ -20,7 +23,27 @@
 
 執行 `launch_linux.sh`。桌面環境可將此檔案設為可執行後雙擊。
 
-服務只監聽 `127.0.0.1:8765`，不對區域網路或網際網路開放。若已有實例執行，啟動器只會開啟既有頁面。
+### Conda / Miniconda
+
+在 repository 根目錄執行：
+
+```bash
+conda env create -f environment.yml
+conda activate markitdown-webui
+python run.py
+```
+
+若瀏覽器沒有自動開啟，請前往 `http://127.0.0.1:8765`。
+
+`environment.yml` 會讓 Conda 管理相容的 Python 版本，並在該環境內透過 `requirements.txt` 安裝專案所需的 Python 套件。依賴更新後，可用以下指令更新既有環境：
+
+```bash
+conda env update -f environment.yml --prune
+```
+
+若你希望程式**確實執行在目前啟用的 Conda 環境中**，請使用 `python run.py`。各平台桌面啟動器是刻意設計成使用獨立的 `.runtime/venv`，不會沿用目前啟用的 Conda 環境。
+
+服務只監聽 `127.0.0.1:8765`，不對區域網路或網際網路開放。若已有實例執行，桌面啟動器只會開啟既有頁面。
 
 ## 功能
 
@@ -47,6 +70,8 @@
 
 ## 開發
 
+使用 `venv`：
+
 ```bash
 python -m venv .venv
 . .venv/bin/activate
@@ -54,6 +79,18 @@ pip install -r requirements-dev.txt
 pytest
 python run.py
 ```
+
+使用 Conda：
+
+```bash
+conda env create -f environment-dev.yml
+conda activate markitdown-webui-dev
+pytest
+ruff check .
+python run.py
+```
+
+`environment-dev.yml` 會安裝 `requirements-dev.txt`，其中包含執行階段依賴、測試與 lint 工具。
 
 開發指令只提供給維護者；一般使用者不需執行。
 
@@ -63,4 +100,4 @@ python run.py
 
 ## 上游與授權
 
-本專案不包含 Microsoft MarkItDown 的原始碼，而是在首次啟動時安裝官方 PyPI 套件 `markitdown==0.1.7`。本介面採 MIT License；第三方套件各自依原授權使用。詳見 `THIRD_PARTY_NOTICES.md`。
+本專案不包含 Microsoft MarkItDown 的原始碼；桌面啟動器首次啟動時，或建立指定的 Python/Conda 環境時，會安裝官方 PyPI 套件 `markitdown==0.1.7`。本介面採 MIT License；第三方套件各自依原授權使用。詳見 `THIRD_PARTY_NOTICES.md`。

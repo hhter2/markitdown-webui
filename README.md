@@ -6,7 +6,10 @@ A lightweight local web interface powered by Microsoft MarkItDown. Upload a docu
 
 ## Usage
 
-The only prerequisites are **Python 3.10–3.13** and an internet connection on first launch. The launcher creates `.runtime/venv` and installs a pinned MarkItDown version automatically; users do not need to run `pip`, create a virtual environment, or open a command prompt.
+There are two supported ways to run the project:
+
+- **Desktop launcher:** requires **Python 3.10–3.13** and an internet connection on first launch. The launcher creates `.runtime/venv` and installs the pinned runtime dependencies automatically.
+- **Conda / Miniconda:** create the supplied Conda environment and run the service directly from that environment.
 
 ### Windows
 
@@ -20,7 +23,27 @@ Double-click `MarkItDown Web.app`. If macOS blocks the unsigned app, Control-cli
 
 Run `launch_linux.sh`. On a desktop environment, make it executable and double-click it.
 
-The service listens only on `127.0.0.1:8765` and is not exposed to the LAN or internet. If an instance is already running, the launcher opens the existing page.
+### Conda / Miniconda
+
+From the repository root:
+
+```bash
+conda env create -f environment.yml
+conda activate markitdown-webui
+python run.py
+```
+
+Then open `http://127.0.0.1:8765` if the browser is not opened manually.
+
+`environment.yml` lets Conda manage a compatible Python version while the project's Python packages are installed from `requirements.txt` inside the environment. To refresh an existing environment after dependency changes, run:
+
+```bash
+conda env update -f environment.yml --prune
+```
+
+If you want to run **inside the active Conda environment**, use `python run.py`. The platform launchers intentionally use the private `.runtime/venv` runtime instead of the currently activated Conda environment.
+
+The service listens only on `127.0.0.1:8765` and is not exposed to the LAN or internet. If an instance is already running, the desktop launcher opens the existing page.
 
 ## Features
 
@@ -47,6 +70,8 @@ Key files: `app/main.py` (HTTP endpoints, limits, and security headers), `app/co
 
 ## Development
 
+Using `venv`:
+
 ```bash
 python -m venv .venv
 . .venv/bin/activate
@@ -55,10 +80,22 @@ pytest
 python run.py
 ```
 
+Using Conda:
+
+```bash
+conda env create -f environment-dev.yml
+conda activate markitdown-webui-dev
+pytest
+ruff check .
+python run.py
+```
+
+`environment-dev.yml` installs `requirements-dev.txt`, which includes the runtime dependencies plus the test and lint tools.
+
 ## Security boundary
 
 This is a local desktop tool, not a multi-tenant public upload service. Although extension, filename, and size limits are enforced and conversion uses `convert_stream()`, only trusted documents should be converted. An externally exposed deployment would need process isolation, resource quotas, ZIP extraction limits, malware scanning, and timeouts.
 
 ## Upstream and license
 
-This project does not include Microsoft MarkItDown source code; it installs the official PyPI package `markitdown==0.1.7` on first launch. This interface is MIT licensed; third-party packages retain their respective licenses. See `THIRD_PARTY_NOTICES.md`.
+This project does not include Microsoft MarkItDown source code; it installs the official PyPI package `markitdown==0.1.7` on first launch or when the selected environment is created. This interface is MIT licensed; third-party packages retain their respective licenses. See `THIRD_PARTY_NOTICES.md`.
