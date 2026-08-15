@@ -22,15 +22,16 @@ def test_default_english_ui_has_no_chinese_text() -> None:
     assert re.search(r"[\u3400-\u9fff]", english_translations) is None
 
 
-def test_hidden_status_banner_has_css_override() -> None:
+def test_page_has_no_status_banner_or_spinner() -> None:
     page_response = client.get("/")
+    script_response = client.get("/static/app.js")
     styles_response = client.get("/static/styles.css")
 
-    assert 'id="statusBanner" hidden' in page_response.text
-    assert re.search(
-        r"\[hidden\]\s*\{[^}]*display:\s*none\s*!important",
-        styles_response.text,
-    )
+    assert "id=\"statusBanner\"" not in page_response.text
+    assert "id=\"spinner\"" not in page_response.text
+    assert "statusBanner" not in script_response.text
+    assert ".status-banner" not in styles_response.text
+    assert ".spinner" not in styles_response.text
 
 
 def test_health() -> None:

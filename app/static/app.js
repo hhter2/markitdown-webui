@@ -3,8 +3,6 @@
 const fileInput = document.getElementById("fileInput");
 const chooseButton = document.getElementById("chooseButton");
 const dropZone = document.getElementById("dropZone");
-const statusBanner = document.getElementById("statusBanner");
-const statusText = document.getElementById("statusText");
 const markdownEditor = document.getElementById("markdownEditor");
 const markdownPreview = document.getElementById("markdownPreview");
 const previewState = document.getElementById("previewState");
@@ -30,7 +28,7 @@ const translations = {
     emptyPreview: "The rendered result will appear here after conversion.", poweredBy: "Powered by Microsoft MarkItDown", noUpload: "Files are not uploaded to external services",
     editorPlaceholder: "Upload a document and the converted result will appear here.", editorLabel: "Markdown source editor",
     notSelected: "No file selected", afterConvert: "The converted content can be edited below", chars: "characters", waiting: "Waiting for content", updating: "Updating…", synced: "Synced", failed: "Conversion failed", previewError: "Preview error", emptyMarkdown: "Markdown content is empty.",
-    converting: (name) => `Converting ${name}…`, ready: (bytes) => `${bytes} · Ready to convert`, output: (bytes, ms, chars) => `${bytes} · ${ms.toLocaleString()} ms · ${chars.toLocaleString()} characters`, conversionFailed: "Conversion failed.", unable: "Unable to complete the conversion.", previewFailed: "Preview failed.", copied: "Copied", switchLanguage: "Chinese"
+    ready: (bytes) => `${bytes} · Ready to convert`, output: (bytes, ms, chars) => `${bytes} · ${ms.toLocaleString()} ms · ${chars.toLocaleString()} characters`, conversionFailed: "Conversion failed.", unable: "Unable to complete the conversion.", previewFailed: "Preview failed.", copied: "Copied", switchLanguage: "Chinese"
   },
   "zh-TW": {
     brandTagline: "本機文件轉 Markdown 工作台", localOnly: "僅限本機", chooseFile: "選擇檔案",
@@ -40,7 +38,7 @@ const translations = {
     emptyPreview: "轉換後的排版效果會顯示在此處。", poweredBy: "由 Microsoft MarkItDown 驅動", noUpload: "檔案不會上傳至外部服務",
     editorPlaceholder: "上傳文件後，轉換結果會顯示在這裡。", editorLabel: "Markdown 程式碼編輯器",
     notSelected: "尚未選擇檔案", afterConvert: "轉換後可在下方直接編輯", chars: "字元", waiting: "等待內容", updating: "更新中…", synced: "已同步", failed: "轉換失敗", previewError: "預覽錯誤", emptyMarkdown: "Markdown 內容為空。",
-    converting: (name) => `正在轉換 ${name}…`, ready: (bytes) => `${bytes} · 準備轉換`, output: (bytes, ms, chars) => `${bytes} · ${ms.toLocaleString()} ms · 輸出 ${chars.toLocaleString()} 字元`, conversionFailed: "轉換失敗。", unable: "無法完成轉換。", previewFailed: "預覽失敗。", copied: "已複製", switchLanguage: "English"
+    ready: (bytes) => `${bytes} · 準備轉換`, output: (bytes, ms, chars) => `${bytes} · ${ms.toLocaleString()} ms · 輸出 ${chars.toLocaleString()} 字元`, conversionFailed: "轉換失敗。", unable: "無法完成轉換。", previewFailed: "預覽失敗。", copied: "已複製", switchLanguage: "English"
   }
 };
 const t = (key, ...args) => typeof translations[locale][key] === "function" ? translations[locale][key](...args) : translations[locale][key];
@@ -111,7 +109,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 async function convertFile(file) {
-  setBusy(true, t("converting", file.name));
+  chooseButton.disabled = true;
   fileName.textContent = file.name;
   fileMeta.textContent = t("ready", formatBytes(file.size));
   fileType.textContent = extensionLabel(file.name);
@@ -134,7 +132,6 @@ async function convertFile(file) {
     fileMeta.textContent = t("output", formatBytes(payload.source_bytes), Number(payload.elapsed_ms), Number(payload.markdown_chars));
     updateCounter();
     await renderPreview(markdownEditor.value);
-    hideStatus();
     markdownEditor.focus();
   } catch (error) {
     showError(error.message || t("unable"));
@@ -220,26 +217,10 @@ function resetWorkspace() {
   previewState.textContent = t("waiting");
   markdownPreview.classList.add("empty");
   markdownPreview.innerHTML = `<div class="empty-state"><div class="empty-glyph" aria-hidden="true">#</div><p>${t("emptyPreview")}</p></div>`;
-  hideStatus();
-}
-
-function setBusy(isBusy, message) {
-  chooseButton.disabled = isBusy;
-  statusBanner.hidden = !isBusy;
-  statusBanner.classList.remove("error");
-  statusText.textContent = message;
 }
 
 function showError(message) {
-  statusBanner.hidden = false;
-  statusBanner.classList.add("error");
-  statusText.textContent = message;
-}
-
-function hideStatus() {
-  statusBanner.hidden = true;
-  statusBanner.classList.remove("error");
-  statusText.textContent = "";
+  fileMeta.textContent = message;
 }
 
 function updateCounter() {

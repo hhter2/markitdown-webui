@@ -186,29 +186,6 @@ button:disabled { cursor: not-allowed; opacity: 0.48; }
 }
 .toolbar-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
-.status-banner {
-  min-height: 42px;
-  padding: 10px 18px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #315da8;
-  background: #f0f5ff;
-  border-bottom: 1px solid #d9e4fb;
-  font-size: 13px;
-}
-.status-banner.error { color: var(--danger); background: var(--danger-soft); border-color: #ffd2cc; }
-.spinner {
-  width: 15px;
-  height: 15px;
-  border: 2px solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
-  animation: spin 700ms linear infinite;
-}
-.status-banner.error .spinner { display: none; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
 .editor-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -347,8 +324,6 @@ footer {
   .local-badge { border-color: #285441; color: #72d6ae; background: #172b23; }
   .upload-icon, #markdownEditor, .markdown-preview { background: #171c22; }
   #markdownEditor { color: #dfe5eb; }
-  .status-banner { color: #a9c5ff; background: #1b2a43; border-color: #2c4165; }
-  .status-banner.error { color: #ffaaa1; background: #3d211f; border-color: #62312d; }
   .markdown-preview blockquote { color: #b7c0ca; border-color: #4b5d76; background: #202830; }
   .markdown-preview code, .markdown-preview pre, .markdown-preview th { background: #242b33; }
 }
