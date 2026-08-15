@@ -1,8 +1,25 @@
+import re
+
 from fastapi.testclient import TestClient
 
 import app.main as main_module
 
 client = TestClient(main_module.app)
+
+
+def test_default_english_ui_has_no_chinese_text() -> None:
+    page_response = client.get("/")
+    script_response = client.get("/static/app.js")
+
+    assert page_response.status_code == 200
+    assert script_response.status_code == 200
+
+    english_translations = script_response.text.partition("  \"zh-TW\": {")[0].rpartition(
+        "  \"en-US\": {"
+    )[2]
+    assert english_translations
+    assert re.search(r"[\u3400-\u9fff]", page_response.text) is None
+    assert re.search(r"[\u3400-\u9fff]", english_translations) is None
 
 
 def test_health() -> None:

@@ -30,7 +30,7 @@ const translations = {
     emptyPreview: "The rendered result will appear here after conversion.", poweredBy: "Powered by Microsoft MarkItDown", noUpload: "Files are not uploaded to external services",
     editorPlaceholder: "Upload a document and the converted result will appear here.", editorLabel: "Markdown source editor",
     notSelected: "No file selected", afterConvert: "The converted content can be edited below", chars: "characters", waiting: "Waiting for content", updating: "Updating…", synced: "Synced", failed: "Conversion failed", previewError: "Preview error", emptyMarkdown: "Markdown content is empty.",
-    converting: (name) => `Converting ${name}…`, ready: (bytes) => `${bytes} · Ready to convert`, output: (bytes, ms, chars) => `${bytes} · ${ms.toLocaleString()} ms · ${chars.toLocaleString()} characters`, conversionFailed: "Conversion failed.", unable: "Unable to complete the conversion.", previewFailed: "Preview failed.", copied: "Copied", switchLanguage: "切換語言"
+    converting: (name) => `Converting ${name}…`, ready: (bytes) => `${bytes} · Ready to convert`, output: (bytes, ms, chars) => `${bytes} · ${ms.toLocaleString()} ms · ${chars.toLocaleString()} characters`, conversionFailed: "Conversion failed.", unable: "Unable to complete the conversion.", previewFailed: "Preview failed.", copied: "Copied", switchLanguage: "Chinese"
   },
   "zh-TW": {
     brandTagline: "本機文件轉 Markdown 工作台", localOnly: "僅限本機", chooseFile: "選擇檔案",
