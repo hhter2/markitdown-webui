@@ -10,7 +10,7 @@
 
 <p align="center">
   <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-orange">
-  <img alt="Python 3.10-3.13" src="https://img.shields.io/badge/python-3.10--3.13-blue?logo=python&logoColor=white">
+  <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=white">
   <img alt="Conda md_webui" src="https://img.shields.io/badge/conda-md__webui-44A833?logo=anaconda&logoColor=white">
   <a href="LICENSE"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green"></a>
 </p>
@@ -19,7 +19,32 @@ A lightweight local web interface powered by Microsoft MarkItDown. Upload a docu
 
 ## Usage
 
-Use Python 3.10–3.13 to run the local service, then open it in a browser. The same commands work in Windows PowerShell, macOS, and Linux.
+Use Python 3.10 or newer to run the local service, then open it in a browser. The project follows the Python requirement declared by MarkItDown 0.1.7. The same commands work in Windows PowerShell, macOS, and Linux.
+
+### uv (project setup)
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) if it is not already available.
+
+On macOS and Linux:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+On Windows PowerShell:
+
+```powershell
+irm https://astral.sh/uv/install.ps1 | iex
+```
+
+From the repository root, create or update the project environment and start the service:
+
+```bash
+uv sync --no-dev
+uv run --no-dev python run.py
+```
+
+uv manages the project-local `.venv` automatically; you do not need to run `uv venv` or activate the environment manually. The `.venv` directory is local and ignored by Git.
 
 ### Python virtual environment
 
@@ -93,6 +118,15 @@ Key files: `app/main.py` (HTTP endpoints, limits, and security headers), `app/co
 
 ## Development
 
+Using uv:
+
+```bash
+uv sync
+uv run pytest
+uv run ruff check .
+uv run python run.py
+```
+
 Using `venv`:
 
 ```bash
@@ -113,7 +147,9 @@ ruff check .
 python run.py
 ```
 
-`environment-dev.yml` creates the development Conda environment as **`md_webui-dev`** and installs `requirements-dev.txt`, which includes the runtime dependencies plus the test and lint tools.
+`environment-dev.yml` creates the development Conda environment as **`md_webui-dev`** and installs `requirements-dev.txt`, which includes the runtime dependencies plus the test and lint tools. The requirements files are generated exports of the uv lockfile so the venv and Conda setup paths stay aligned with the uv project.
+
+When dependencies change, update `pyproject.toml`, run `uv lock`, and regenerate both requirements files with `uv export`.
 
 ## Security boundary
 
@@ -121,4 +157,4 @@ This is a local desktop tool, not a multi-tenant public upload service. Although
 
 ## Upstream and license
 
-This project does not include Microsoft MarkItDown source code; `requirements.txt` and the supplied Conda environments install the official PyPI package `markitdown==0.1.7`. This interface is MIT licensed; third-party packages retain their respective licenses. See `THIRD_PARTY_NOTICES.md`.
+This project does not include Microsoft MarkItDown source code; `pyproject.toml` declares the official PyPI package `markitdown==0.1.7`, `uv.lock` records the resolved dependencies, and the supplied venv and Conda setup paths use exported requirements files. This interface is MIT licensed; third-party packages retain their respective licenses. See `THIRD_PARTY_NOTICES.md`.

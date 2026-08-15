@@ -10,7 +10,7 @@
 
 <p align="center">
   <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-orange">
-  <img alt="Python 3.10-3.13" src="https://img.shields.io/badge/python-3.10--3.13-blue?logo=python&logoColor=white">
+  <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=white">
   <img alt="Conda md_webui" src="https://img.shields.io/badge/conda-md__webui-44A833?logo=anaconda&logoColor=white">
   <a href="LICENSE"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green"></a>
 </p>
@@ -19,7 +19,32 @@
 
 ## 使用方式
 
-使用 Python 3.10–3.13 啟動本機服務，再透過瀏覽器開啟。Windows PowerShell、macOS 與 Linux 都使用相同的流程。
+使用 Python 3.10 或更新版本啟動本機服務，再透過瀏覽器開啟。本專案遵循 MarkItDown 0.1.7 宣告的 Python 版本需求。Windows PowerShell、macOS 與 Linux 都使用相同的流程。
+
+### uv（專案環境）
+
+如果尚未安裝，請先依照 [uv 官方安裝說明](https://docs.astral.sh/uv/getting-started/installation/) 安裝 uv。
+
+macOS 與 Linux：
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Windows PowerShell：
+
+```powershell
+irm https://astral.sh/uv/install.ps1 | iex
+```
+
+在 repository 根目錄建立或更新專案環境，並啟動服務：
+
+```bash
+uv sync --no-dev
+uv run --no-dev python run.py
+```
+
+uv 會自動管理專案本機的 `.venv`；不需要手動執行 `uv venv` 或啟用環境。`.venv` 只存在本機，且已被 Git 忽略。
 
 ### Python 虛擬環境
 
@@ -93,6 +118,15 @@ conda env update -f environment.yml --prune
 
 ## 開發
 
+使用 uv：
+
+```bash
+uv sync
+uv run pytest
+uv run ruff check .
+uv run python run.py
+```
+
 使用 `venv`：
 
 ```bash
@@ -113,7 +147,9 @@ ruff check .
 python run.py
 ```
 
-`environment-dev.yml` 預設會建立名為 **`md_webui-dev`** 的開發 Conda 環境，並安裝 `requirements-dev.txt`；其中包含執行階段依賴、測試與 lint 工具。
+`environment-dev.yml` 預設會建立名為 **`md_webui-dev`** 的開發 Conda 環境，並安裝 `requirements-dev.txt`；其中包含執行階段依賴、測試與 lint 工具。這些 requirements 檔案是由 uv lockfile 匯出的版本，因此 venv 與 Conda 流程會和 uv 專案保持一致。
+
+依賴套件變更時，請先更新 `pyproject.toml`，執行 `uv lock`，再使用 `uv export` 重新產生兩個 requirements 檔案。
 
 開發指令只提供給維護者；一般使用者不需執行。
 
@@ -123,4 +159,4 @@ python run.py
 
 ## 上游與授權
 
-本專案不包含 Microsoft MarkItDown 的原始碼；`requirements.txt` 與專案提供的 Conda 環境會安裝官方 PyPI 套件 `markitdown==0.1.7`。本介面採 MIT License；第三方套件各自依原授權使用。詳見 `THIRD_PARTY_NOTICES.md`。
+本專案不包含 Microsoft MarkItDown 的原始碼；`pyproject.toml` 宣告官方 PyPI 套件 `markitdown==0.1.7`，`uv.lock` 記錄解析後的依賴版本，提供的 venv 與 Conda 流程則使用匯出的 requirements 檔案。本介面採 MIT License；第三方套件各自依原授權使用。詳見 `THIRD_PARTY_NOTICES.md`。
